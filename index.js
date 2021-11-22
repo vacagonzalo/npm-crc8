@@ -1,4 +1,4 @@
-crc8 = (polynomial) => {
+const crc8 = (polynomial) => {
     const size = 0x100;
     const mask = 0xff;
     const byteSize = 8;
@@ -15,6 +15,14 @@ crc8 = (polynomial) => {
         table[i] = (crc & mask);
     }
     return (bytes) => {
-        // TODO: build CRC from bytes
+        let crc = table[0];
+        let indx = 0;
+        bytes.forEach((b) => {
+            indx = crc ^ b;
+            crc = table[indx];
+        });
+        return crc;
     }
 };
+
+module.exports = crc8;
